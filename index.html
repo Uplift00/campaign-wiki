@@ -306,7 +306,7 @@ label{ font-weight:bold; }
             <button id="filterCharacters" onclick="setFilter('Characters')">Characters</button>
             <button id="filterEnemies" onclick="setFilter('Enemies')">Enemies</button>
             <button id="filterHandouts" onclick="setFilter('Handouts')">Handouts</button>
-            <button id="filterSessionNotes" onclick="setFilter('Session Notes')">Session Notes</button>
+            <button id="filterSessionNotes" onclick="setFilter('DMM Portals')">DMM Portals</button>
         </div>
 
         <div id="sidebarEntries"></div>
@@ -387,7 +387,7 @@ label{ font-weight:bold; }
                         <option>Enemies</option>
                         <option>Locations</option>
                         <option>Handouts</option>
-                        <option>Session Notes</option>
+                        <option>DMM Portals</option>
                     </select>
                 </div>
                 <div>
@@ -628,7 +628,7 @@ function wireTagPills(container){
 }
 
 function setActiveFilterButton(){
-    ["All","Locations","NPCs","Characters","Enemies","Handouts","Session Notes"].forEach(cat => {
+    ["All","Locations","NPCs","Characters","Enemies","Handouts","DMM Portals"].forEach(cat => {
         const id = "filter" + cat.replaceAll(" ","");
         const btn = document.getElementById(id);
         if(btn) btn.classList.toggle("active", cat === currentFilter);
@@ -827,7 +827,7 @@ window.showDirectory = function(){
 };
 
 function renderDirectory(){
-    const order = ["Locations","NPCs","Characters","Enemies","Handouts","Session Notes","Other"];
+    const order = ["Locations","NPCs","Characters","Enemies","Handouts","DMM Portals","Other"];
     const grouped = {};
 
     for(const entry of entries){
@@ -920,7 +920,7 @@ window.renderEntries = function(){
         grouped[cat].push(entry);
     }
 
-    const order = ["Locations","NPCs","Characters","Enemies","Handouts","Session Notes","Other"];
+    const order = ["Locations","NPCs","Characters","Enemies","Handouts","DMM Portals","Other"];
     els.sidebarEntries.innerHTML = "";
     let renderedAny = false;
 
