@@ -1,246 +1,11 @@
-ChatGPT Plus
-
-
-
-Pasted text(3).txt
-Document
-I want the attached Wiki-type page to be hosted on github and use Firebase's Firestore to make the entries editable and saveable. Explain like I am 10 years old.
-
-You only need to change one small section in your index.html—the Firebase configuration block.
-
-Right now your file points to:
-
-wfrp-enemy-within
-
-I can see it here in your code. 
-
-
-It currently looks like:
-
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "wfrp-enemy-within.firebaseapp.com",
-  projectId: "wfrp-enemy-within",
-  storageBucket: "wfrp-enemy-within.firebasestorage.app",
-  messagingSenderId: "...",
-  appId: "..."
-};
-What to change
-Replace:
-
-Old
-authDomain: "wfrp-enemy-within.firebaseapp.com",
-projectId: "wfrp-enemy-within",
-storageBucket: "wfrp-enemy-within.firebasestorage.app",
-With:
-authDomain: "max-campaign.firebaseapp.com",
-projectId: "max-campaign",
-storageBucket: "max-campaign.firebasestorage.app",
-So it becomes:
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "max-campaign.firebaseapp.com",
-  projectId: "max-campaign",
-  storageBucket: "max-campaign.firebasestorage.app",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-Important: don’t guess the keys
-The apiKey, messagingSenderId, and appId usually change too when you switch projects.
-
-So don’t just rename the project text.
-
-Instead, get the real config from Firebase:
-
-In Firebase
-Go to:
-
-Firebase Console
-
-Open:
-
-max-campaign
-
-Then:
-
-⚙️ Project Settings
-Scroll to:
-
-Your apps
-Click your web app (</> icon), or create one if it doesn’t exist.
-
-Firebase gives you a block like:
-
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "max-campaign.firebaseapp.com",
-  projectId: "max-campaign",
-  storageBucket: "max-campaign.firebasestorage.app",
-  messagingSenderId: "...",
-  appId: "..."
-};
-Copy that whole block and paste it over the old one in index.html.
-
-Then save in GitHub
-Edit index.html
-
-Replace the config block
-
-Click Commit changes
-
-Wait ~30–60 seconds.
-
-Refresh your site.
-
-The status pill should change to:
-
-Connected ✓
-instead of Firebase error. (That comes from your code’s connection check.) 
-
-
-If you want, send me the max-campaign Firebase config block and I can verify you pasted it in the right spot.
-
-
-how do I remove the return home link
-
-That’s one of the easiest edits.
-
-At the very top of your HTML, inside the topbar, you currently have this:
-
-<a href="index.html">← Return Home</a>
-I can see it near the top of your file. 
-
-
-That line creates the “← Return Home” link.
-
-Option 1 — Remove it completely (recommended)
-Delete this line:
-
-<a href="index.html">← Return Home</a>
-So this:
-
-<div class="topbar">
-    <a href="index.html">← Return Home</a>
-    <div class="title">Campaign Wiki</div>
-    <div class="status-pill" id="firebaseStatus">Loading...</div>
-</div>
-Becomes:
-
-<div class="topbar">
-    <div class="title">Campaign Wiki</div>
-    <div class="status-pill" id="firebaseStatus">Loading...</div>
-</div>
-Commit the change in GitHub and refresh your site.
-
-What happens?
-Your top bar will now just show:
-
-Campaign Wiki           Connected ✓
-No back arrow.
-
-Optional cleanup
-Because the bar used to space 3 things, removing one item may shift spacing slightly. If the title looks too far left, change this CSS:
-
-justify-content: space-between;
-to:
-
-justify-content: center;
-That CSS is in your .topbar section near the top of the file. 
-
-
-But try deleting the link first—your current layout may already look fine.
-
-
-
-index.html
-File
-in this html code change the session note catagory to "DMM Portals"
-
-You need to change 4 places in your HTML because "Session Notes" appears in multiple spots:
-
-1. Change the filter button text
-Find this:
-
-<button id="filterSessionNotes" onclick="setFilter('Session Notes')">Session Notes</button>
-Replace with:
-
-<button id="filterDMMPortals" onclick="setFilter('DMM Portals')">DMM Portals</button>
-
-
-2. Change the dropdown category
-Find this:
-
-<option>Session Notes</option>
-Replace with:
-
-<option>DMM Portals</option>
-
-
-3. Change the category list used by the filter buttons
-Find:
-
-["All","Locations","NPCs","Characters","Enemies","Handouts","Session Notes"]
-Replace with:
-
-["All","Locations","NPCs","Characters","Enemies","Handouts","DMM Portals"]
-
-
-4. Change the sidebar + directory ordering
-There are 2 places where this appears:
-
-Find:
-
-["Locations","NPCs","Characters","Enemies","Handouts","Session Notes","Other"]
-Replace both with:
-
-["Locations","NPCs","Characters","Enemies","Handouts","DMM Portals","Other"]
-
-
-
-
-Quick way (fastest)
-If you’re editing in GitHub (or the . editor):
-
-Use Find + Replace
-
-Search:
-
-Session Notes
-Replace with:
-
-DMM Portals
-There are exactly 5 occurrences in this file, so replacing all of them will do it. 
-
-
-Then:
-
-Commit changes
-
-Refresh your wiki.
-
-You’ll now see:
-
-DMM Portals
-everywhere instead of Session Notes.
-
-
-how do I change the colors from a brown based set up to a blue based set up ?
-
-This is actually easy because your page uses CSS color variables at the very top—like paint buckets.
-
-Right now your wiki says:
-
-“Any time you need dark brown, use --dark.”
-“Any time you need parchment, use --paper.”
-
-So instead of changing 100 colors throughout the file, you mostly change one section.
-
-I can see your color variables here near the top of the file. 
-
-
-Right now it looks like:
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Wiki</title>
+
+<style>
 :root{
     --dark:#3f2c18;
     --mid:#6f512f;
@@ -250,139 +15,13 @@ Right now it looks like:
     --line:#9c7a4b;
     --blue:#1d4f91;
 }
-Step 1 — Replace that whole block
-Change it to this:
-
-:root{
-    --dark:#183a5a;     /* navy */
-    --mid:#2f5f8f;      /* medium blue */
-    --paper:#e8f2fc;    /* pale blue */
-    --paper2:#f5faff;   /* almost white-blue */
-    --ink:#102030;      /* dark blue text */
-    --line:#7fa6cc;     /* border blue */
-    --blue:#1d4f91;     /* links */
-}
-What changes?
-Your whole page changes:
-
-Before:
-leather brown top bar
-
-parchment tan panels
-
-brown buttons
-
-brown borders
-
-After:
-navy top bar
-
-icy blue panels
-
-steel-blue buttons
-
-blue borders
-
-Think:
-
-old fantasy tavern → arcane wizard library
-
-Step 2 — Optional: make background blue too
-Right now your page background is:
-
-background:#c9b181;
-That’s the tan/brown outside background. 
-
-
-Change it to:
-
-background:#b9d4ee;
-or darker:
-
-background:#9bbfe3;
-Step 3 — Optional: make status pill bluer
-Find:
-
-background:#2f2112;
-That’s your “Connected ✓” pill. 
-
-
-Change to:
-
-background:#0f2740;
-My recommended “magic portal” theme
-For DMM Portals, I’d use:
-
-:root{
-    --dark:#102c54;
-    --mid:#2d5f9a;
-    --paper:#e7f1ff;
-    --paper2:#f7fbff;
-    --ink:#0e1e35;
-    --line:#7ea6d8;
-    --blue:#3f7ed8;
-}
-That’ll feel more:
-
-arcane portals + magical maps + moonlit library
-
-instead of:
-
-tavern parchment
-
-Just replace the :root { ... } block, commit in GitHub, wait ~30 seconds, and refresh.
-
-
-
-Pasted text(4).txt
-Document
-fix this so the entire page has the blue color them and return to me the full file
-
-You were very close—some parts were still using the old brown colors, so the page looked “half blue, half parchment.”
-
-I went through your file and found the remaining brown/tan colors:
-
-sidebar was still tan
-
-metadata boxes were tan
-
-hover colors were tan
-
-tag pills were brown
-
-entry cards were tan
-
-placeholder text was brown
-
-toolbar backgrounds were tan
-
-borders were still parchment-colored
-
-Those are all still in your uploaded file. 
-
-
-Below is the complete blue-theme replacement block for your <style> section. Replace your current <style> ... </style> with this:
-
-<style>
-:root{
-    --dark:#102c54;
-    --mid:#2d5f9a;
-    --paper:#e7f1ff;
-    --paper2:#f7fbff;
-    --ink:#0e1e35;
-    --line:#7ea6d8;
-    --blue:#3f7ed8;
-}
-
 *{ box-sizing:border-box; }
-
 body{
     margin:0;
     font-family: Georgia, "Times New Roman", serif;
-    background:#dcecff;
+    background:#c9b181;
     color:var(--ink);
 }
-
 .topbar{
     background:var(--dark);
     color:white;
@@ -391,41 +30,26 @@ body{
     align-items:center;
     justify-content:space-between;
     gap:12px;
-    border-bottom:4px solid #08192f;
+    border-bottom:4px solid #23170b;
 }
-
-.topbar .title{
-    font-size:22px;
-    font-weight:bold;
-}
-
+.topbar a{ color:white; text-decoration:none; font-weight:bold; }
+.topbar .title{ font-size:22px; font-weight:bold; }
 .status-pill{
-    background:#0b2342;
-    border:1px solid var(--line);
+    background:#2f2112;
+    border:1px solid #bfa36e;
     border-radius:999px;
     padding:6px 10px;
     font-size:13px;
 }
-
-.layout{
-    display:flex;
-    min-height:calc(100vh - 58px);
-}
-
+.layout{ display:flex; min-height:calc(100vh - 58px); }
 .sidebar{
     width:355px;
-    background:#cfe3fa;
+    background:#ead9aa;
     border-right:4px solid var(--mid);
     padding:14px;
     overflow-y:auto;
 }
-
-.content{
-    flex:1;
-    padding:20px;
-    overflow-y:auto;
-}
-
+.content{ flex:1; padding:20px; overflow-y:auto; }
 button{
     background:var(--mid);
     color:white;
@@ -436,169 +60,195 @@ button{
     font-weight:bold;
     font-family:inherit;
 }
-
-button:hover{
-    background:#1f4f85;
-}
-
-button.secondary{
-    background:#5c88ba;
-}
-
-button.secondary:hover{
-    background:#4d78a8;
-}
-
-button.danger{
-    background:#8b2f22;
-}
-
-button.small-button{
-    padding:5px 8px;
-    font-size:12px;
-}
-
+button:hover{ background:#593f23; }
+button.danger{ background:#8b2f22; }
+button.danger:hover{ background:#6f2118; }
+button.secondary{ background:#8a734e; }
+button.small-button{ padding:5px 8px; font-size:12px; }
 input, select{
     width:100%;
     padding:9px;
     border:1px solid var(--line);
     border-radius:6px;
-    background:white;
+    background:#fffdf3;
     font-family:Arial, sans-serif;
     font-size:14px;
     margin:4px 0 12px;
 }
-
-label{
-    font-weight:bold;
-}
-
+label{ font-weight:bold; }
 .panel{
     background:var(--paper);
     border:3px solid var(--mid);
     border-radius:12px;
-    box-shadow:0 3px 12px rgba(0,0,0,.15);
+    box-shadow:0 3px 12px rgba(0,0,0,.25);
     padding:18px;
     max-width:1100px;
 }
-
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+}
+.panel-header h1, .panel-header h2{ margin:0 0 8px; }
 .meta{
-    background:#d9ebff;
+    background:#e8d6a8;
     border:1px solid var(--line);
     border-radius:8px;
     padding:8px;
     font-size:13px;
+    min-width:260px;
 }
-
+.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+.toolbar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:12px 0;
+}
+.filter-bar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin:8px 0 12px;
+}
+.filter-bar button.active{ outline:3px solid #d7b55f; }
+.section{ margin:12px 0; }
 .section h3{
     margin:0;
     background:var(--dark);
     color:white;
     padding:9px 10px;
     border-radius:8px 8px 0 0;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
 }
-
 .section-content{
     background:var(--paper2);
     border:1px solid var(--mid);
     border-top:0;
     padding:6px;
 }
-
 .entry-link{
     padding:8px;
-    border-bottom:1px solid var(--line);
-    border-radius:5px;
+    border-bottom:1px solid #d1ba88;
     cursor:pointer;
+    border-radius:5px;
 }
-
-.entry-link:hover{
-    background:#d9ebff;
-}
-
-.small{
-    color:#35557d;
-    font-size:12px;
-}
-
+.entry-link:hover{ background:#e4d0a0; }
+.entry-title{ font-weight:bold; }
+.small{ color:#604a2a; font-size:12px; }
 .empty{
-    color:#35557d;
+    color:#6b5633;
     font-style:italic;
     padding:10px;
 }
-
 .editor-toolbar{
     display:flex;
     flex-wrap:wrap;
     gap:6px;
     padding:8px;
-    background:#d9ebff;
+    background:#dfc895;
     border:1px solid var(--line);
     border-radius:8px 8px 0 0;
 }
-
 .rich-editor{
     min-height:320px;
-    background:white;
+    background:#fffdf3;
     border:1px solid var(--line);
     border-top:0;
     border-radius:0 0 8px 8px;
     padding:12px;
     font-family:Arial, sans-serif;
+    font-size:15px;
+    line-height:1.45;
+    outline:none;
+    overflow-y:auto;
 }
-
+.rich-editor:empty:before{
+    content:attr(data-placeholder);
+    color:#8b7a5e;
+}
 .wiki-link{
     color:var(--blue);
     font-weight:bold;
     text-decoration:underline;
+    cursor:pointer;
 }
-
+.wiki-link.missing{
+    color:#8b2f22;
+    text-decoration-style:dashed;
+}
 .tag-pill{
     display:inline-block;
-    background:var(--mid);
+    background:#6f512f;
     color:white;
     padding:4px 8px;
     border-radius:999px;
     margin:2px;
+    cursor:pointer;
     font-size:12px;
 }
-
-.tag-pill:hover{
-    background:#1f4f85;
-}
-
+.tag-pill:hover{ background:#4f361d; }
+.tag-row{ margin-top:4px; }
 .backlink{
-    background:#d9ebff;
+    background:#e7d4aa;
     padding:8px;
     border-radius:6px;
     margin-bottom:6px;
+    cursor:pointer;
 }
-
-.backlink:hover{
-    background:#c8e1fc;
+.backlink:hover{ background:#d5bc83; }
+.entry-image, .preview{
+    max-width:360px;
+    max-height:360px;
+    border:2px solid var(--mid);
+    border-radius:8px;
+    margin:8px 0;
+    display:block;
 }
-
+.preview{ display:none; }
+.search-help{
+    font-size:12px;
+    color:#604a2a;
+    margin-top:-6px;
+    margin-bottom:8px;
+}
 .entry-body{
-    background:white;
-    border:1px solid var(--line);
+    background:#fff8df;
+    border:1px solid #d1ba88;
     border-radius:10px;
     padding:16px;
+    font-family:Arial, sans-serif;
+    line-height:1.5;
+    min-height:180px;
 }
-
+.entry-body h2, .entry-body h3{ font-family:Georgia, "Times New Roman", serif; }
 .placeholder{
     text-align:center;
     padding:60px 20px;
-    color:#35557d;
+    color:#5f4726;
 }
+#viewPanel, #editPanel{ display:none; }
 
+.directory-group{
+    margin-bottom:18px;
+}
 .directory-group h2{
     margin:0;
     background:var(--dark);
     color:white;
     padding:9px 12px;
     border-radius:8px 8px 0 0;
+    font-size:1.05rem;
 }
-
 .directory-list{
     background:var(--paper2);
     border:1px solid var(--mid);
@@ -606,170 +256,736 @@ label{
     border-radius:0 0 8px 8px;
     padding:8px;
 }
-
 .directory-entry{
+    display:block;
     padding:7px 8px;
-    border-bottom:1px solid var(--line);
-    border-radius:5px;
+    border-bottom:1px solid #d1ba88;
     cursor:pointer;
+    border-radius:5px;
+}
+.directory-entry:hover{
+    background:#e4d0a0;
+}
+.directory-entry:last-child{
+    border-bottom:0;
+}
+.directory-title{
+    font-weight:bold;
+}
+.directory-meta{
+    font-size:12px;
+    color:#604a2a;
 }
 
-.directory-entry:hover{
-    background:#d9ebff;
+@media(max-width:850px){
+    .layout{ flex-direction:column; }
+    .sidebar{ width:100%; max-height:48vh; border-right:0; border-bottom:4px solid var(--mid); }
+    .grid2{ grid-template-columns:1fr; }
 }
 </style>
-This fixes all remaining brown colors from your uploaded file and makes the entire page consistent blue. 
+</head>
 
+<body>
+<div class="topbar">
+    <a href="index.html">← Return Home</a>
+    <div class="title">Max Campaign Wiki</div>
+    <div class="status-pill" id="firebaseStatus">Loading...</div>
+</div>
 
-In GitHub:
-Open index.html
+<div class="layout">
+    <aside class="sidebar">
+        <button onclick="newEntry()" style="width:100%; margin-bottom:8px;">+ New Entry</button>
+        <button class="secondary" onclick="showDirectory()" style="width:100%; margin-bottom:10px;">Browse All Entries</button>
 
-Press . (opens editor)
+        <input type="text" id="search" placeholder="Search title, text, location, tags..." oninput="renderEntries()">
+        <div class="search-help">Tip: click a tag pill to filter by tag.</div>
 
-Replace the <style> section
-
-Save
-
-Commit changes
-
-Refresh your site in ~30 seconds
-
-You should now have a full “arcane portal / wizard archive” blue theme instead of mixed tavern parchment.
-
-
-    <input type="text" id="search" placeholder="Search title, text, location, tags..." oninput="renderEntries()">
-    <div class="search-help">Tip: click a tag pill to filter by tag.</div>
-
-    <div class="filter-bar">
-        <button id="filterAll" onclick="setFilter('All')">All</button>
-        <button id="filterLocations" onclick="setFilter('Locations')">Locations</button>
-        <button id="filterCharacters" onclick="setFilter('Characters')">Characters</button>
-        <button id="filterNPCs" onclick="setFilter('NPCs')">NPCs</button>
-        <button id="filterEnemies" onclick="setFilter('Enemies')">Enemies</button>
-        <button id="filterHandouts" onclick="setFilter('Handouts')">Handouts</button>
-        <button id="filterDMMPortals" onclick="setFilter('DMM Portals')">DMM Portals</button>
-    </div>
-
-    <div id="sidebarEntries"></div>
-</aside>
-
-<main class="content">
-
-    <div id="directoryPanel" class="panel">
-        <div class="panel-header">
-            <div>
-                <h1>All Wiki Entries</h1>
-                <div class="small">Alphabetical directory grouped by category.</div>
-            </div>
+        <div class="filter-bar">
+            <button id="filterAll" onclick="setFilter('All')">All</button>
+            <button id="filterLocations" onclick="setFilter('Locations')">Locations</button>
+            <button id="filterNPCs" onclick="setFilter('NPCs')">NPCs</button>
+            <button id="filterCharacters" onclick="setFilter('Characters')">Characters</button>
+            <button id="filterEnemies" onclick="setFilter('Enemies')">Enemies</button>
+            <button id="filterHandouts" onclick="setFilter('Handouts')">Handouts</button>
+            <button id="filterSessionNotes" onclick="setFilter('Session Notes')">Session Notes</button>
         </div>
-        <div id="directoryContent"></div>
-    </div>
 
-    <div id="emptyPanel" class="panel">
-        <div class="placeholder">
-            <h1>Campaign Wiki</h1>
-            <p>Select an entry from the sidebar to read it, or create a new entry.</p>
-            <button onclick="newEntry()">+ New Entry</button>
-        </div>
-    </div>
+        <div id="sidebarEntries"></div>
+    </aside>
 
-    <div id="viewPanel" class="panel">
-        <div class="panel-header">
-            <div>
-                <h1 id="viewTitle">Untitled</h1>
-                <div class="small">
-                    <strong>Category:</strong> <span id="viewCategory">—</span>
-                    &nbsp; | &nbsp;
-                    <strong>Location:</strong> <span id="viewLocation">—</span>
+    <main class="content">
+
+        <div id="directoryPanel" class="panel">
+            <div class="panel-header">
+                <div>
+                    <h1>All Wiki Entries</h1>
+                    <div class="small">Alphabetical directory grouped by category.</div>
                 </div>
-                <div id="viewTags" class="tag-row"></div>
             </div>
-            <div class="meta">
-                <div><strong>Created:</strong> <span id="viewCreated">—</span></div>
-                <div><strong>Last Edited:</strong> <span id="viewUpdated">—</span></div>
-            </div>
+            <div id="directoryContent"></div>
         </div>
 
-        <div class="toolbar">
-            <button onclick="editCurrentEntry()">Edit Entry</button>
-            <button class="secondary" onclick="newEntry()">+ New Entry</button>
-        </div>
-
-        <img id="viewImage" class="entry-image" style="display:none;" alt="Entry image">
-        <div id="viewContent" class="entry-body"></div>
-
-        <div style="margin-top:18px;">
-            <h3>Linked From</h3>
-            <div id="viewBacklinks"></div>
-        </div>
-    </div>
-
-    <div id="editPanel" class="panel">
-        <div class="panel-header">
-            <div>
-                <h2 id="editHeading">Create / Edit Entry</h2>
-                <div class="small">Use <strong>[[Entry Name]]</strong> to link to another wiki entry.</div>
-            </div>
-            <div class="meta">
-                <div><strong>Created:</strong> <span id="createdDisplay">—</span></div>
-                <div><strong>Last Edited:</strong> <span id="updatedDisplay">—</span></div>
+        <div id="emptyPanel" class="panel">
+            <div class="placeholder">
+                <h1>Campaign Wiki</h1>
+                <p>Select an entry from the sidebar to read it, or create a new entry.</p>
+                <button onclick="newEntry()">+ New Entry</button>
             </div>
         </div>
 
-        <input type="hidden" id="editingId">
-        <input type="hidden" id="existingImageUrl">
-
-        <div class="grid2">
-            <div>
-                <label>Category</label>
-                <select id="category">
-                    <option>NPCs</option>
-                    <option>Characters</option>
-                    <option>Enemies</option>
-                    <option>Locations</option>
-                    <option>Handouts</option>
-                    <option>DMM Portals</option>
-                </select>
+        <div id="viewPanel" class="panel">
+            <div class="panel-header">
+                <div>
+                    <h1 id="viewTitle">Untitled</h1>
+                    <div class="small">
+                        <strong>Category:</strong> <span id="viewCategory">—</span>
+                        &nbsp; | &nbsp;
+                        <strong>Location:</strong> <span id="viewLocation">—</span>
+                    </div>
+                    <div id="viewTags" class="tag-row"></div>
+                </div>
+                <div class="meta">
+                    <div><strong>Created:</strong> <span id="viewCreated">—</span></div>
+                    <div><strong>Last Edited:</strong> <span id="viewUpdated">—</span></div>
+                </div>
             </div>
-            <div>
-                <label>Title</label>
-                <input type="text" id="title" placeholder="Entry title">
+
+            <div class="toolbar">
+                <button onclick="editCurrentEntry()">Edit Entry</button>
+                <button class="secondary" onclick="newEntry()">+ New Entry</button>
+            </div>
+
+            <img id="viewImage" class="entry-image" style="display:none;" alt="Entry image">
+            <div id="viewContent" class="entry-body"></div>
+
+            <div style="margin-top:18px;">
+                <h3>Linked From</h3>
+                <div id="viewBacklinks"></div>
             </div>
         </div>
 
-        <label>Location</label>
-        <input type="text" id="location" placeholder="Example: Altdorf, the Reik, Horse and Coaches Inn">
+        <div id="editPanel" class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2 id="editHeading">Create / Edit Entry</h2>
+                    <div class="small">Use <strong>[[Entry Name]]</strong> to link to another wiki entry.</div>
+                </div>
+                <div class="meta">
+                    <div><strong>Created:</strong> <span id="createdDisplay">—</span></div>
+                    <div><strong>Last Edited:</strong> <span id="updatedDisplay">—</span></div>
+                </div>
+            </div>
 
-        <label>Tags</label>
-        <input type="text" id="tags" placeholder="Example: city, goblin, quest, merchant, river">
+            <input type="hidden" id="editingId">
+            <input type="hidden" id="existingImageUrl">
 
-        <label>Image Upload</label>
-        <input type="file" id="imageUpload" accept="image/*">
-        <img id="preview" class="preview" alt="Uploaded preview">
+            <div class="grid2">
+                <div>
+                    <label>Category</label>
+                    <select id="category">
+                        <option>NPCs</option>
+                        <option>Characters</option>
+                        <option>Enemies</option>
+                        <option>Locations</option>
+                        <option>Handouts</option>
+                        <option>Session Notes</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Title</label>
+                    <input type="text" id="title" placeholder="Entry title">
+                </div>
+            </div>
 
-        <label>Notes</label>
-        <div class="editor-toolbar">
-            <button type="button" class="small-button" onclick="formatText('bold')"><b>B</b></button>
-            <button type="button" class="small-button" onclick="formatText('italic')"><i>I</i></button>
-            <button type="button" class="small-button" onclick="formatText('underline')"><u>U</u></button>
-            <button type="button" class="small-button" onclick="formatText('formatBlock','h2')">H2</button>
-            <button type="button" class="small-button" onclick="formatText('formatBlock','h3')">H3</button>
-            <button type="button" class="small-button" onclick="formatText('insertUnorderedList')">• List</button>
-            <button type="button" class="small-button" onclick="formatText('insertOrderedList')">1. List</button>
-            <button type="button" class="small-button" onclick="formatText('formatBlock','blockquote')">Quote</button>
-            <button type="button" class="small-button" onclick="formatText('insertHorizontalRule')">HR</button>
-            <button type="button" class="small-button" onclick="insertWikiLink()">[[Link]]</button>
+            <label>Location</label>
+            <input type="text" id="location" placeholder="Example: Altdorf, the Reik, Horse and Coaches Inn">
+
+            <label>Tags</label>
+            <input type="text" id="tags" placeholder="Example: city, goblin, quest, merchant, river">
+
+            <label>Image Upload</label>
+            <input type="file" id="imageUpload" accept="image/*">
+            <img id="preview" class="preview" alt="Uploaded preview">
+
+            <label>Notes</label>
+            <div class="editor-toolbar">
+                <button type="button" class="small-button" onclick="formatText('bold')"><b>B</b></button>
+                <button type="button" class="small-button" onclick="formatText('italic')"><i>I</i></button>
+                <button type="button" class="small-button" onclick="formatText('underline')"><u>U</u></button>
+                <button type="button" class="small-button" onclick="formatText('formatBlock','h2')">H2</button>
+                <button type="button" class="small-button" onclick="formatText('formatBlock','h3')">H3</button>
+                <button type="button" class="small-button" onclick="formatText('insertUnorderedList')">• List</button>
+                <button type="button" class="small-button" onclick="formatText('insertOrderedList')">1. List</button>
+                <button type="button" class="small-button" onclick="formatText('formatBlock','blockquote')">Quote</button>
+                <button type="button" class="small-button" onclick="formatText('insertHorizontalRule')">HR</button>
+                <button type="button" class="small-button" onclick="insertWikiLink()">[[Link]]</button>
+            </div>
+            <div id="editor" class="rich-editor" contenteditable="true" data-placeholder="Write notes here..."></div>
+
+            <div class="toolbar">
+                <button onclick="saveEntry()">Save Entry</button>
+                <button class="secondary" onclick="cancelEdit()">Cancel</button>
+                <button class="secondary" onclick="newEntry()">Clear / New Entry</button>
+                <button class="danger" onclick="deleteEntry()">Delete Entry</button>
+                <span id="saveStatus" class="small"></span>
+            </div>
         </div>
-        <div id="editor" class="rich-editor" contenteditable="true" data-placeholder="Write notes here..."></div>
+    </main>
+</div>
 
-        <div class="toolbar">
-            <button onclick="saveEntry()">Save Entry</button>
-            <button class="secondary" onclick="cancelEdit()">Cancel</button>
-            <button class="secondary" onclick="newEntry()">Clear / New Entry</button>
-            <button class="danger" onclick="deleteEntry()">Delete Entry</button>
-            <span id="saveStatus" class="small"></span>
-        </div>
-    </div>
-</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+    getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+    getStorage, ref, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
-Close
+const firebaseConfig = {
+  apiKey: "AIzaSyAIZ1hiLFV60z4feJv0wC48dTrvApjuqjQ",
+  authDomain: "max-campaign.firebaseapp.com",
+  projectId: "max-campaign",
+  storageBucket: "max-campaign.firebasestorage.app",
+  messagingSenderId: "349261927044",
+  appId: "1:349261927044:web:b7bec0a8eb665ef5bf68d1"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+let entries = [];
+let currentFilter = "All";
+let currentEntryId = "";
+let currentMode = "empty";
+
+const els = {
+    firebaseStatus: document.getElementById("firebaseStatus"),
+    sidebarEntries: document.getElementById("sidebarEntries"),
+    search: document.getElementById("search"),
+    emptyPanel: document.getElementById("emptyPanel"),
+    directoryPanel: document.getElementById("directoryPanel"),
+    directoryContent: document.getElementById("directoryContent"),
+    viewPanel: document.getElementById("viewPanel"),
+    editPanel: document.getElementById("editPanel"),
+
+    viewTitle: document.getElementById("viewTitle"),
+    viewCategory: document.getElementById("viewCategory"),
+    viewLocation: document.getElementById("viewLocation"),
+    viewTags: document.getElementById("viewTags"),
+    viewCreated: document.getElementById("viewCreated"),
+    viewUpdated: document.getElementById("viewUpdated"),
+    viewImage: document.getElementById("viewImage"),
+    viewContent: document.getElementById("viewContent"),
+    viewBacklinks: document.getElementById("viewBacklinks"),
+
+    editingId: document.getElementById("editingId"),
+    category: document.getElementById("category"),
+    title: document.getElementById("title"),
+    location: document.getElementById("location"),
+    tags: document.getElementById("tags"),
+    editor: document.getElementById("editor"),
+    imageUpload: document.getElementById("imageUpload"),
+    preview: document.getElementById("preview"),
+    existingImageUrl: document.getElementById("existingImageUrl"),
+    createdDisplay: document.getElementById("createdDisplay"),
+    updatedDisplay: document.getElementById("updatedDisplay"),
+    saveStatus: document.getElementById("saveStatus"),
+    editHeading: document.getElementById("editHeading")
+};
+
+function showMode(mode){
+    currentMode = mode;
+    els.directoryPanel.style.display = mode === "directory" ? "block" : "none";
+    els.emptyPanel.style.display = mode === "empty" ? "block" : "none";
+    els.viewPanel.style.display = mode === "view" ? "block" : "none";
+    els.editPanel.style.display = mode === "edit" ? "block" : "none";
+}
+
+function formatTimestamp(value){
+    if(!value) return "—";
+    if(value.toDate) return value.toDate().toLocaleString();
+    if(typeof value === "string") return value;
+    if(value.seconds) return new Date(value.seconds * 1000).toLocaleString();
+    return "—";
+}
+
+function escapeHtml(text){
+    return String(text ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+function normalizeTitle(title){
+    return String(title || "").trim().toLowerCase();
+}
+
+function getTagsFromInput(){
+    return els.tags.value.split(",").map(t => t.trim()).filter(Boolean);
+}
+
+function tagsToString(tags){
+    if(Array.isArray(tags)) return tags.join(", ");
+    return tags || "";
+}
+
+function entryTags(entry){
+    if(Array.isArray(entry.tags)) return entry.tags;
+    if(typeof entry.tags === "string"){
+        return entry.tags.split(",").map(t => t.trim()).filter(Boolean);
+    }
+    return [];
+}
+
+function stripHtml(html){
+    const div = document.createElement("div");
+    div.innerHTML = html || "";
+    return div.textContent || div.innerText || "";
+}
+
+window.formatText = function(command, value = null){
+    document.execCommand(command, false, value);
+    els.editor.focus();
+};
+
+window.insertWikiLink = function(){
+    const title = prompt("Enter the entry title to link:");
+    if(!title) return;
+    document.execCommand("insertText", false, `[[${title}]]`);
+    els.editor.focus();
+};
+
+function findEntryByTitle(title){
+    return entries.find(e => normalizeTitle(e.title) === normalizeTitle(title));
+}
+
+function renderWikiLinks(html){
+    return (html || "").replace(/\[\[(.*?)\]\]/g, (match, p1) => {
+        const title = p1.trim();
+        const found = findEntryByTitle(title);
+        const safeTitle = escapeHtml(title);
+        const cls = found ? "wiki-link" : "wiki-link missing";
+        return `<span class="${cls}" data-wikilink="${safeTitle}">[[${safeTitle}]]</span>`;
+    });
+}
+
+function wireWikiLinks(container){
+    container.querySelectorAll("[data-wikilink]").forEach(el => {
+        el.addEventListener("click", () => openWikiLink(el.dataset.wikilink));
+    });
+}
+
+window.openWikiLink = function(title){
+    const entry = findEntryByTitle(title);
+    if(entry){
+        openEntryView(entry.id);
+    } else {
+        const create = confirm(`No entry named "${title}" exists. Create it now?`);
+        if(create){
+            window.newEntry();
+            els.title.value = title;
+        }
+    }
+};
+
+function generateBacklinks(targetTitle, currentId){
+    const backlinks = [];
+    const target = normalizeTitle(targetTitle);
+    if(!target) return backlinks;
+
+    const regex = /\[\[(.*?)\]\]/g;
+
+    for(const entry of entries){
+        if(entry.id === currentId) continue;
+        const content = entry.content || "";
+        let match;
+        while((match = regex.exec(content)) !== null){
+            if(normalizeTitle(match[1]) === target){
+                backlinks.push(entry);
+                break;
+            }
+        }
+    }
+    return backlinks;
+}
+
+function renderTags(tags){
+    return tags.map(tag =>
+        `<span class="tag-pill" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`
+    ).join(" ");
+}
+
+function wireTagPills(container){
+    container.querySelectorAll("[data-tag]").forEach(el => {
+        el.addEventListener("click", () => {
+            els.search.value = `tag:${el.dataset.tag}`;
+            renderEntries();
+        });
+    });
+}
+
+function setActiveFilterButton(){
+    ["All","Locations","NPCs","Characters","Enemies","Handouts","Session Notes"].forEach(cat => {
+        const id = "filter" + cat.replaceAll(" ","");
+        const btn = document.getElementById(id);
+        if(btn) btn.classList.toggle("active", cat === currentFilter);
+    });
+}
+
+window.setFilter = function(filter){
+    currentFilter = filter;
+    if(els.search.value.startsWith("tag:")) els.search.value = "";
+    setActiveFilterButton();
+    renderEntries();
+};
+
+function openEntryView(id){
+    const entry = entries.find(e => e.id === id);
+    if(!entry) return;
+
+    currentEntryId = id;
+
+    els.viewTitle.textContent = entry.title || "Untitled";
+    els.viewCategory.textContent = entry.category || "—";
+    els.viewLocation.textContent = entry.location || "—";
+    els.viewCreated.textContent = formatTimestamp(entry.createdAt);
+    els.viewUpdated.textContent = formatTimestamp(entry.updatedAt);
+
+    const tags = entryTags(entry);
+    els.viewTags.innerHTML = tags.length ? renderTags(tags) : "";
+    wireTagPills(els.viewTags);
+
+    if(entry.imageUrl){
+        els.viewImage.src = entry.imageUrl;
+        els.viewImage.style.display = "block";
+    } else {
+        els.viewImage.src = "";
+        els.viewImage.style.display = "none";
+    }
+
+    els.viewContent.innerHTML = renderWikiLinks(entry.content || "<em>No notes yet.</em>");
+    wireWikiLinks(els.viewContent);
+
+    const backlinks = generateBacklinks(entry.title, entry.id);
+    if(backlinks.length){
+        els.viewBacklinks.innerHTML = backlinks.map(b => `
+            <div class="backlink" data-entryid="${escapeHtml(b.id)}">
+                <strong>${escapeHtml(b.title || "Untitled")}</strong>
+                <div class="small">${escapeHtml(b.category || "")}</div>
+            </div>
+        `).join("");
+        els.viewBacklinks.querySelectorAll("[data-entryid]").forEach(el => {
+            el.addEventListener("click", () => openEntryView(el.dataset.entryid));
+        });
+    } else {
+        els.viewBacklinks.innerHTML = "<div class='small'>No backlinks yet.</div>";
+    }
+
+    showMode("view");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+window.editCurrentEntry = function(){
+    if(!currentEntryId) return;
+    openEntryEditor(currentEntryId);
+};
+
+function openEntryEditor(id){
+    const entry = entries.find(e => e.id === id);
+    if(!entry) return;
+
+    currentEntryId = id;
+    els.editingId.value = entry.id;
+    els.editHeading.textContent = "Edit Entry";
+    els.category.value = entry.category || "NPCs";
+    els.title.value = entry.title || "";
+    els.location.value = entry.location || "";
+    els.tags.value = tagsToString(entry.tags);
+    els.editor.innerHTML = entry.content || "";
+    els.existingImageUrl.value = entry.imageUrl || "";
+    els.createdDisplay.textContent = formatTimestamp(entry.createdAt);
+    els.updatedDisplay.textContent = formatTimestamp(entry.updatedAt);
+    els.saveStatus.textContent = "";
+
+    if(entry.imageUrl){
+        els.preview.src = entry.imageUrl;
+        els.preview.style.display = "block";
+    } else {
+        els.preview.src = "";
+        els.preview.style.display = "none";
+    }
+
+    showMode("edit");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+window.newEntry = function(){
+    currentEntryId = "";
+    els.editingId.value = "";
+    els.editHeading.textContent = "Create Entry";
+    els.category.value = "NPCs";
+    els.title.value = "";
+    els.location.value = "";
+    els.tags.value = "";
+    els.editor.innerHTML = "";
+    els.imageUpload.value = "";
+    els.preview.src = "";
+    els.preview.style.display = "none";
+    els.existingImageUrl.value = "";
+    els.createdDisplay.textContent = "—";
+    els.updatedDisplay.textContent = "—";
+    els.saveStatus.textContent = "";
+    showMode("edit");
+};
+
+window.cancelEdit = function(){
+    if(currentEntryId){
+        openEntryView(currentEntryId);
+    } else {
+        showDirectory();
+    }
+};
+
+els.imageUpload.addEventListener("change", () => {
+    const file = els.imageUpload.files[0];
+    if(!file) return;
+    els.preview.src = URL.createObjectURL(file);
+    els.preview.style.display = "block";
+});
+
+window.saveEntry = async function(){
+    const title = els.title.value.trim();
+    if(!title){
+        alert("Please enter a title.");
+        return;
+    }
+
+    els.saveStatus.textContent = "Saving...";
+
+    const id = els.editingId.value || crypto.randomUUID();
+    const existing = entries.find(e => e.id === id);
+
+    let imageUrl = els.existingImageUrl.value || "";
+
+    const file = els.imageUpload.files[0];
+    if(file){
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const imageRef = ref(storage, `wikiImages/${id}/${Date.now()}_${safeName}`);
+        await uploadBytes(imageRef, file);
+        imageUrl = await getDownloadURL(imageRef);
+    }
+
+    const data = {
+        category: els.category.value,
+        title,
+        location: els.location.value.trim(),
+        tags: getTagsFromInput(),
+        content: els.editor.innerHTML,
+        textContent: stripHtml(els.editor.innerHTML),
+        imageUrl,
+        createdAt: existing?.createdAt || serverTimestamp(),
+        updatedAt: serverTimestamp()
+    };
+
+    await setDoc(doc(db, "wikiEntries", id), data, { merge: true });
+
+    currentEntryId = id;
+    els.editingId.value = id;
+    els.existingImageUrl.value = imageUrl;
+    els.imageUpload.value = "";
+    els.saveStatus.textContent = "Saved ✓";
+
+    setTimeout(() => openEntryView(id), 500);
+};
+
+window.deleteEntry = async function(){
+    const id = els.editingId.value || currentEntryId;
+    if(!id){
+        alert("Select an entry first.");
+        return;
+    }
+
+    const title = els.title.value || entries.find(e => e.id === id)?.title || "this entry";
+    const confirmed = confirm(`Delete "${title}"? This cannot be undone.`);
+
+    if(!confirmed) return;
+
+    await deleteDoc(doc(db, "wikiEntries", id));
+    currentEntryId = "";
+    window.newEntry();
+    showDirectory();
+};
+
+
+window.showDirectory = function(){
+    renderDirectory();
+    showMode("directory");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+function renderDirectory(){
+    const order = ["Locations","NPCs","Characters","Enemies","Handouts","Session Notes","Other"];
+    const grouped = {};
+
+    for(const entry of entries){
+        const cat = entry.category || "Other";
+        if(!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(entry);
+    }
+
+    els.directoryContent.innerHTML = "";
+
+    let any = false;
+
+    for(const cat of order){
+        if(!grouped[cat] || !grouped[cat].length) continue;
+
+        any = true;
+        grouped[cat].sort((a,b) => (a.title || "").localeCompare(b.title || ""));
+
+        const group = document.createElement("div");
+        group.className = "directory-group";
+
+        const heading = document.createElement("h2");
+        heading.textContent = cat;
+
+        const list = document.createElement("div");
+        list.className = "directory-list";
+
+        for(const entry of grouped[cat]){
+            const item = document.createElement("div");
+            item.className = "directory-entry";
+            item.onclick = () => openEntryView(entry.id);
+
+            const tags = entryTags(entry);
+            item.innerHTML = `
+                <div class="directory-title">${escapeHtml(entry.title || "Untitled")}</div>
+                <div class="directory-meta">${escapeHtml(entry.location || "")}</div>
+                ${tags.length ? `<div class="tag-row">${tags.slice(0,5).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join(" ")}</div>` : ""}
+            `;
+
+            list.appendChild(item);
+        }
+
+        group.appendChild(heading);
+        group.appendChild(list);
+        els.directoryContent.appendChild(group);
+    }
+
+    if(!any){
+        els.directoryContent.innerHTML = `<div class="empty">No wiki entries have been created yet.</div>`;
+    }
+}
+
+
+window.renderEntries = function(){
+    const rawQuery = els.search.value.trim();
+    const query = rawQuery.toLowerCase();
+    let tagQuery = "";
+
+    if(query.startsWith("tag:")){
+        tagQuery = query.replace("tag:","").trim();
+    }
+
+    let filtered = entries.slice();
+
+    if(currentFilter !== "All"){
+        filtered = filtered.filter(e => e.category === currentFilter);
+    }
+
+    if(query){
+        filtered = filtered.filter(e => {
+            const tags = entryTags(e).map(t => t.toLowerCase());
+            if(tagQuery){
+                return tags.some(t => t.includes(tagQuery));
+            }
+            return (
+                (e.title || "").toLowerCase().includes(query) ||
+                (e.location || "").toLowerCase().includes(query) ||
+                tags.some(tag => tag.includes(query)) ||
+                stripHtml(e.content || "").toLowerCase().includes(query)
+            );
+        });
+    }
+
+    filtered.sort((a,b) => (a.title || "").localeCompare(b.title || ""));
+
+    const grouped = {};
+    for(const entry of filtered){
+        const cat = entry.category || "Other";
+        if(!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(entry);
+    }
+
+    const order = ["Locations","NPCs","Characters","Enemies","Handouts","Session Notes","Other"];
+    els.sidebarEntries.innerHTML = "";
+    let renderedAny = false;
+
+    for(const cat of order){
+        if(!grouped[cat] || !grouped[cat].length) continue;
+        renderedAny = true;
+        const section = document.createElement("div");
+        section.className = "section";
+
+        const header = document.createElement("h3");
+        header.innerHTML = `${escapeHtml(cat)} <span>${grouped[cat].length}</span>`;
+
+        const content = document.createElement("div");
+        content.className = "section-content";
+
+        header.addEventListener("click", () => {
+            content.style.display = content.style.display === "none" ? "block" : "none";
+        });
+
+        for(const entry of grouped[cat]){
+            const div = document.createElement("div");
+            div.className = "entry-link";
+            div.onclick = () => openEntryView(entry.id);
+
+            const tags = entryTags(entry);
+            div.innerHTML = `
+                <div class="entry-title">${escapeHtml(entry.title || "Untitled")}</div>
+                <div class="small">${escapeHtml(entry.location || "")}</div>
+                <div class="small">Edited: ${escapeHtml(formatTimestamp(entry.updatedAt))}</div>
+                <div class="tag-row">${tags.slice(0,4).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join(" ")}</div>
+            `;
+            content.appendChild(div);
+        }
+
+        section.appendChild(header);
+        section.appendChild(content);
+        els.sidebarEntries.appendChild(section);
+    }
+
+    if(!renderedAny){
+        els.sidebarEntries.innerHTML = `<div class="empty">No entries found.</div>`;
+    }
+};
+
+onSnapshot(collection(db, "wikiEntries"), snapshot => {
+    entries = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    els.firebaseStatus.textContent = "Connected ✓";
+    renderEntries();
+
+    if(currentMode === "directory"){
+        renderDirectory();
+    }
+
+    if(currentEntryId && currentMode === "view"){
+        openEntryView(currentEntryId);
+    }
+}, error => {
+    console.error(error);
+    els.firebaseStatus.textContent = "Firebase error";
+    els.sidebarEntries.innerHTML = `<div class="empty">Could not load entries. Check Firebase rules.</div>`;
+});
+
+setActiveFilterButton();
+showDirectory();
+</script>
+</body>
+</html>
