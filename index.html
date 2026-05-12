@@ -628,7 +628,7 @@ function wireTagPills(container){
 }
 
 function setActiveFilterButton(){
-    ["All","Locations","NPCs","Characters","Enemies","Handouts","DMM Portals"].forEach(cat => {
+    ["All","Locations","Characters", "NPCs","Enemies","Handouts","DMM Portals"].forEach(cat => {
         const id = "filter" + cat.replaceAll(" ","");
         const btn = document.getElementById(id);
         if(btn) btn.classList.toggle("active", cat === currentFilter);
@@ -827,7 +827,7 @@ window.showDirectory = function(){
 };
 
 function renderDirectory(){
-    const order = ["Locations","NPCs","Characters","Enemies","Handouts","DMM Portals","Other"];
+    const order = ["Locations","Characters","NPCs","Enemies","Handouts","DMM Portals","Other"];
     const grouped = {};
 
     for(const entry of entries){
@@ -920,7 +920,7 @@ window.renderEntries = function(){
         grouped[cat].push(entry);
     }
 
-    const order = ["Locations","NPCs","Characters","Enemies","Handouts","DMM Portals","Other"];
+    const order = ["Locations","Characters","NPCs","Enemies","Handouts","DMM Portals","Other"];
     els.sidebarEntries.innerHTML = "";
     let renderedAny = false;
 
