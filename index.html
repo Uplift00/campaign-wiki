@@ -51,8 +51,6 @@
 
     --missing-link:#8b2f22;
 
-    --tag-hover:#2f475d;
-
     --backlink-bg:#cfd8e1;
     --backlink-hover:#c0cad4;
 
@@ -231,18 +229,6 @@ label{ font-weight:bold; }
     color:#8b2f22;
     text-decoration-style:dashed;
 }
-.tag-pill{
-    display:inline-block;
-    background:#6f512f;
-    color:white;
-    padding:4px 8px;
-    border-radius:999px;
-    margin:2px;
-    cursor:pointer;
-    font-size:12px;
-}
-.tag-pill:hover{ background:var(--tag-hover); }
-.tag-row{ margin-top:4px; }
 .backlink{
     background:var(--backlink-bg);
     padding:8px;
@@ -342,9 +328,7 @@ label{ font-weight:bold; }
         <button onclick="newEntry()" style="width:100%; margin-bottom:8px;">+ New Entry</button>
         <button class="secondary" onclick="showDirectory()" style="width:100%; margin-bottom:10px;">Browse All Entries</button>
 
-        <input type="text" id="search" placeholder="Search title, text, location, tags..." oninput="renderEntries()">
-        <div class="search-help">Tip: click a tag pill to filter by tag.</div>
-
+        <input type="text" id="search" placeholder="Search title, text, location..." oninput="renderEntries()">
         <div class="filter-bar">
             <button id="filterAll" onclick="setFilter('All')">All</button>
             <button id="filterLocations" onclick="setFilter('Locations')">Locations</button>
@@ -387,7 +371,6 @@ label{ font-weight:bold; }
                         &nbsp; | &nbsp;
                         <strong>Location:</strong> <span id="viewLocation">—</span>
                     </div>
-                    <div id="viewTags" class="tag-row"></div>
                 </div>
                 <div class="meta">
                     <div><strong>Created:</strong> <span id="viewCreated">—</span></div>
@@ -445,11 +428,6 @@ label{ font-weight:bold; }
             <label>Location</label>
             <input type="text" id="location" placeholder="Example: Altdorf, the Reik, Horse and Coaches Inn">
 
-            
-            <label>Tags</label>
-            <input type="text" id="tags" placeholder="Example: city, goblin, quest, merchant, river"> 
-            
-            
             <label>Image Upload</label>
             <input type="file" id="imageUpload" accept="image/*">
             <img id="preview" class="preview" alt="Uploaded preview">
@@ -520,7 +498,6 @@ const els = {
     viewTitle: document.getElementById("viewTitle"),
     viewCategory: document.getElementById("viewCategory"),
     viewLocation: document.getElementById("viewLocation"),
-    viewTags: document.getElementById("viewTags"),
     viewCreated: document.getElementById("viewCreated"),
     viewUpdated: document.getElementById("viewUpdated"),
     viewImage: document.getElementById("viewImage"),
@@ -531,7 +508,6 @@ const els = {
     category: document.getElementById("category"),
     title: document.getElementById("title"),
     location: document.getElementById("location"),
-    tags: document.getElementById("tags"),
     editor: document.getElementById("editor"),
     imageUpload: document.getElementById("imageUpload"),
     preview: document.getElementById("preview"),
@@ -571,22 +547,8 @@ function normalizeTitle(title){
     return String(title || "").trim().toLowerCase();
 }
 
-function getTagsFromInput(){
-    return els.tags.value.split(",").map(t => t.trim()).filter(Boolean);
-}
 
-function tagsToString(tags){
-    if(Array.isArray(tags)) return tags.join(", ");
-    return tags || "";
-}
 
-function entryTags(entry){
-    if(Array.isArray(entry.tags)) return entry.tags;
-    if(typeof entry.tags === "string"){
-        return entry.tags.split(",").map(t => t.trim()).filter(Boolean);
-    }
-    return [];
-}
 
 function stripHtml(html){
     const div = document.createElement("div");
@@ -660,20 +622,7 @@ function generateBacklinks(targetTitle, currentId){
     return backlinks;
 }
 
-function renderTags(tags){
-    return tags.map(tag =>
-        `<span class="tag-pill" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</span>`
-    ).join(" ");
-}
 
-function wireTagPills(container){
-    container.querySelectorAll("[data-tag]").forEach(el => {
-        el.addEventListener("click", () => {
-            els.search.value = `tag:${el.dataset.tag}`;
-            renderEntries();
-        });
-    });
-}
 
 function setActiveFilterButton(){
     ["All","Locations","NPCs","Characters","Enemies","Handouts","Session Notes"].forEach(cat => {
@@ -685,7 +634,6 @@ function setActiveFilterButton(){
 
 window.setFilter = function(filter){
     currentFilter = filter;
-    if(els.search.value.startsWith("tag:")) els.search.value = "";
     setActiveFilterButton();
     renderEntries();
 };
@@ -701,11 +649,6 @@ function openEntryView(id){
     els.viewLocation.textContent = entry.location || "—";
     els.viewCreated.textContent = formatTimestamp(entry.createdAt);
     els.viewUpdated.textContent = formatTimestamp(entry.updatedAt);
-
-    const tags = entryTags(entry);
-    els.viewTags.innerHTML = tags.length ? renderTags(tags) : "";
-    wireTagPills(els.viewTags);
-
     if(entry.imageUrl){
         els.viewImage.src = entry.imageUrl;
         els.viewImage.style.display = "block";
@@ -751,7 +694,6 @@ function openEntryEditor(id){
     els.category.value = entry.category || "NPCs";
     els.title.value = entry.title || "";
     els.location.value = entry.location || "";
-    els.tags.value = tagsToString(entry.tags);
     els.editor.innerHTML = entry.content || "";
     els.existingImageUrl.value = entry.imageUrl || "";
     els.createdDisplay.textContent = formatTimestamp(entry.createdAt);
@@ -777,7 +719,6 @@ window.newEntry = function(){
     els.category.value = "NPCs";
     els.title.value = "";
     els.location.value = "";
-    els.tags.value = "";
     els.editor.innerHTML = "";
     els.imageUpload.value = "";
     els.preview.src = "";
@@ -830,7 +771,6 @@ window.saveEntry = async function(){
         category: els.category.value,
         title,
         location: els.location.value.trim(),
-        tags: getTagsFromInput(),
         content: els.editor.innerHTML,
         textContent: stripHtml(els.editor.innerHTML),
         imageUrl,
@@ -907,12 +847,9 @@ function renderDirectory(){
             const item = document.createElement("div");
             item.className = "directory-entry";
             item.onclick = () => openEntryView(entry.id);
-
-            const tags = entryTags(entry);
             item.innerHTML = `
                 <div class="directory-title">${escapeHtml(entry.title || "Untitled")}</div>
                 <div class="directory-meta">${escapeHtml(entry.location || "")}</div>
-                ${tags.length ? `<div class="tag-row">${tags.slice(0,5).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join(" ")}</div>` : ""}
             `;
 
             list.appendChild(item);
@@ -932,11 +869,6 @@ function renderDirectory(){
 window.renderEntries = function(){
     const rawQuery = els.search.value.trim();
     const query = rawQuery.toLowerCase();
-    let tagQuery = "";
-
-    if(query.startsWith("tag:")){
-        tagQuery = query.replace("tag:","").trim();
-    }
 
     let filtered = entries.slice();
 
@@ -946,14 +878,9 @@ window.renderEntries = function(){
 
     if(query){
         filtered = filtered.filter(e => {
-            const tags = entryTags(e).map(t => t.toLowerCase());
-            if(tagQuery){
-                return tags.some(t => t.includes(tagQuery));
-            }
             return (
                 (e.title || "").toLowerCase().includes(query) ||
                 (e.location || "").toLowerCase().includes(query) ||
-                tags.some(tag => tag.includes(query)) ||
                 stripHtml(e.content || "").toLowerCase().includes(query)
             );
         });
@@ -992,13 +919,10 @@ window.renderEntries = function(){
             const div = document.createElement("div");
             div.className = "entry-link";
             div.onclick = () => openEntryView(entry.id);
-
-            const tags = entryTags(entry);
             div.innerHTML = `
                 <div class="entry-title">${escapeHtml(entry.title || "Untitled")}</div>
                 <div class="small">${escapeHtml(entry.location || "")}</div>
                 <div class="small">Edited: ${escapeHtml(formatTimestamp(entry.updatedAt))}</div>
-                <div class="tag-row">${tags.slice(0,4).map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join(" ")}</div>
             `;
             content.appendChild(div);
         }
