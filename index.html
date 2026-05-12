@@ -955,8 +955,24 @@ onSnapshot(collection(db, "wikiEntries"), snapshot => {
     els.sidebarEntries.innerHTML = `<div class="empty">Could not load entries. Check Firebase rules.</div>`;
 });
 
-setActiveFilterButton();
-showDirectory();
+/*
+    setActiveFilterButton();
+    showDirectory();
+*/
+    setActiveFilterButton();
+
+setTimeout(() => {
+    const hommlet = entries.find(
+        e => normalizeTitle(e.title) === "hommlet"
+    );
+
+    if(hommlet){
+        openEntryView(hommlet.id);
+    } else {
+        showDirectory();
+    }
+}, 500);
+    
 </script>
 </body>
 </html>
